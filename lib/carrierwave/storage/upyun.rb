@@ -63,10 +63,10 @@ module CarrierWave
           @uploader = uploader
           @path = path
           @base = base
-          @crop_x = uploader.model.crop_x.present? ? uploader.model.crop_x : nil
-          @crop_y = uploader.model.crop_y.present? ? uploader.model.crop_y : nil
-          @crop_w = uploader.model.crop_w.present? ? uploader.model.crop_w : nil
-          @crop_h = uploader.model.crop_h.present? ? uploader.model.crop_h : nil
+          @crop_x = uploader.model.try(:crop_x).present? ? uploader.model.crop_x : nil
+          @crop_y = uploader.model.try(:crop_y).present? ? uploader.model.crop_y : nil
+          @crop_w = uploader.model.try(:crop_w).present? ? uploader.model.crop_w : nil
+          @crop_h = uploader.model.try(:crop_h).present? ? uploader.model.crop_h : nil
         end
 
         ##
