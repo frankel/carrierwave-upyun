@@ -57,11 +57,16 @@ module CarrierWave
       end
 
       class File
-
+        attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
         def initialize(uploader, base, path)
+
           @uploader = uploader
           @path = path
           @base = base
+          @crop_x = uploader.model.crop_x.present? ? uploader.model.crop_x : nil
+          @crop_y = uploader.model.crop_y.present? ? uploader.model.crop_y : nil
+          @crop_w = uploader.model.crop_w.present? ? uploader.model.crop_w : nil
+          @crop_h = uploader.model.crop_h.present? ? uploader.model.crop_h : nil
         end
 
         ##
@@ -179,6 +184,10 @@ module CarrierWave
       #
       def store!(file)
         cloud_files_options = {'Content-Type' => file.content_type}
+        if uploader.model.crop_x.present?
+          cloud_files_options.merge!({'x-gmkerl-crop' => "#{uploader.model.crop_x}, #{uploader.model.crop_y}, #{uploader.model.crop_w}, #{uploader.model.crop_h}"})
+        end
+        
         f = CarrierWave::Storage::UpYun::File.new(uploader, self, uploader.store_path)
         f.store(file.read,cloud_files_options)
         f
