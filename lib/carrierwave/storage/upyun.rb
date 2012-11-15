@@ -184,7 +184,7 @@ module CarrierWave
       #
       def store!(file)
         cloud_files_options = {'Content-Type' => file.content_type}
-        if uploader.model.crop_x.present?
+        if defined? uploader.model.crop_x && uploader.model.crop_x.present?
           cloud_files_options.merge!({'x-gmkerl-crop' => "#{uploader.model.crop_x}, #{uploader.model.crop_y}, #{uploader.model.crop_w}, #{uploader.model.crop_h}"})
         end
         
