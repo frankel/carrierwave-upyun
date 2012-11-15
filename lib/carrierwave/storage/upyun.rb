@@ -63,10 +63,10 @@ module CarrierWave
           @uploader = uploader
           @path = path
           @base = base
-          @crop_x = defined? uploader.model.crop_x && uploader.model.crop_x.present? ? uploader.model.crop_x : nil
-          @crop_y = defined? uploader.model.crop_y && uploader.model.crop_y.present? ? uploader.model.crop_y : nil
-          @crop_w = defined? uploader.model.crop_w && uploader.model.crop_w.present? ? uploader.model.crop_w : nil
-          @crop_h = defined? uploader.model.crop_h && uploader.model.crop_h.present? ? uploader.model.crop_h : nil
+          @crop_x = defined?(uploader.model.crop_x) ==true && uploader.model.crop_x.present? ? uploader.model.crop_x : nil
+          @crop_y = defined?(uploader.model.crop_y) ==true && uploader.model.crop_y.present? ? uploader.model.crop_y : nil
+          @crop_w = defined?(uploader.model.crop_w) ==true && uploader.model.crop_w.present? ? uploader.model.crop_w : nil
+          @crop_h = defined?(uploader.model.crop_h) ==true && uploader.model.crop_h.present? ? uploader.model.crop_h : nil
         end
 
         ##
@@ -184,7 +184,7 @@ module CarrierWave
       #
       def store!(file)
         cloud_files_options = {'Content-Type' => file.content_type}
-        if defined? uploader.model.crop_x && uploader.model.crop_x.present?
+        if defined?(uploader.model.crop_x) == true && uploader.model.crop_x.present?
           cloud_files_options.merge!({'x-gmkerl-crop' => "#{uploader.model.crop_x}, #{uploader.model.crop_y}, #{uploader.model.crop_w}, #{uploader.model.crop_h}"})
         end
         
